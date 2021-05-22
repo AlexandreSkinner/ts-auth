@@ -35,6 +35,15 @@ $ npm install typeorm -D
 ### Instalar o package reflect-metadata oara Tyeporm
 $ npm install reflect-metadata --save -D
 
+### Instalar biblioteca de criptografia para a senha
+$ npm install bcryptjs --save -D
+
+# Tipos para o typescript da biblioteca
+$ npm install @types/bcryptjs --save -D
+
+### Instalar biblioteca JWT
+$ npm install 
+
 3. INICIALIZAÇÕES:
 -----------------
 
