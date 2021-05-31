@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import { getRepository, Repository } from 'typeorm';
-import bcrypt from 'bcryptjs';
+import { compare } from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 import User from '../models/User';
-import { PassThrough } from 'stream';
 
+
+// userDTO estabelece uma visão para a classe User sem expor a password na API 
 type userDTO = {
   email: string;
   token: string;
@@ -19,21 +20,24 @@ class AuthController{
     const user = await repository.findOne({ where: { email } });
 
     if ( !user) {
-      return res.status(401).send(
-        {mensagem: ' Usuário não existe !'}
+      return res.status(401).json(
+        { error: ' Credentials not found !' }
       );  
     }
     
-    const isValidPassowrd = await bcrypt.compare(password, user.password);
+    // Verifica se a senha fornecida é igua a senha cadastrada no BD
+    // compare é uma function de bcryptjs - retorno um boolean 
+    const isValidPassowrd = await compare(password, user.password);
 
     // Password divergentes
     if (!isValidPassowrd){
-      return res.status(401).send( { 
-             mensagem: 'Password invalida !'
+      return res.status(401).json( { 
+             error: 'Credentials not found !'
       });
     }
 
-    const token = jwt.sign({ id: user.id}, 'secret', { expiresIn: '1d'});
+    // Cria o token (payload, secret_key, tempo duração)
+    const token = jwt.sign({ id: user.id }, 'secret', { expiresIn: '1d'});
     
     // Eliminar a password do retorno
     let dto: userDTO = { email, token };

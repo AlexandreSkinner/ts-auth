@@ -42,7 +42,10 @@ $ npm install bcryptjs --save -D
 $ npm install @types/bcryptjs --save -D
 
 ### Instalar biblioteca JWT
-$ npm install 
+$ npm install jsonwebtoken --save -D 
+
+# Tipos do jsonwebtoken
+$ npm install @types/jsonwebtoken --save -D 
 
 3. INICIALIZAÇÕES:
 -----------------
@@ -143,3 +146,28 @@ $ npm run dev
 
 ### Para dar start na aplicação com o script de desenvolvimento
 $ npm run dev
+
+5. JWT
+---------------------
+
+### Estrutura do JWT
+1) HEADER - ALGORITHM & TOKEN TYPE
+   O cabeçalho identifica qual algoritmo é usado para gerar a assinatura e se parece com isto:
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+
+2) PAYLOAD - DATA
+{
+  "sub": "1234567890",
+  "name": "John Doe",
+  "iat": 1516239022
+}
+
+3) VERIFY SIGNATURE
+HMACSHA256(
+  base64UrlEncode(header) + "." +
+  base64UrlEncode(payload),
+  your-256-bit-secret
+)
