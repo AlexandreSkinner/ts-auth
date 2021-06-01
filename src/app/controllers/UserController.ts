@@ -13,8 +13,11 @@ class UserController{
     const { email, password } = req.body;
 
     const userExists = await repository.findOne({ where: { email } });
+
     if ( userExists) {
-      return res.sendStatus(409).json( { error: "Usuário já existe !" });  
+      return res.status(409).json( { 
+        error: 'User already exists !'
+      });  
     }
     // cria a entity
     const user = repository.create({ email, password });
