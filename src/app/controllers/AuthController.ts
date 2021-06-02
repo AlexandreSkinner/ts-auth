@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getRepository, Repository } from 'typeorm';
+import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -19,9 +19,10 @@ class AuthController{
 
     const user = await repository.findOne({ where: { email } });
 
+    // Verifica se achou um usuário com o e-mail informado
     if ( !user) {
       return res.status(401).json(
-        { error: ' Credentials not found !' }
+        { error: 'Credentials not found !' }
       );  
     }
     

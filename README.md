@@ -137,6 +137,14 @@ $ npm run dev
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js"
   }
 
+## Outro exemplo que vi 
+  "scripts": {
+    "dev:server": "ts-node-dev -r tsconfig-paths/register  --inspect --transpile-only --ignore-watch node_modules src/server.ts",
+    "start": "ts-node src/server.ts",
+    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
+  },
+
+
 1. Descrição das flag do script dev:
   A flag --transpile-only indica que só transpila o código e não verifica se ele está certo ou errado. Nós não precisamos dessa verificação em tempo de desenvolvimento porque o VsCode já realiza esta verificação
   A flag --respawn serve para que o ts-node-dev fique observando alterações do código, para transpilar e fazer auto reload da aplicação
@@ -160,7 +168,8 @@ $ npm run dev
 
 2) PAYLOAD - DATA
 {
-  "sub": "1234567890",
+  "iss": "tm-api",
+  "sub": "1234567890",  <== (user.Id)
   "name": "John Doe",
   "iat": 1516239022
 }

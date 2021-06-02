@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getRepository, Repository } from 'typeorm';
+import { getRepository } from 'typeorm';
 import User from '../models/User';
 
 class UserController{
@@ -14,9 +14,10 @@ class UserController{
 
     const userExists = await repository.findOne({ where: { email } });
 
+    // Verificar se encontro um usuário com e-mail informado
     if ( userExists) {
       return res.status(409).json( { 
-        error: 'User already exists !'
+             error: 'User already exists !'
       });  
     }
     // cria a entity
