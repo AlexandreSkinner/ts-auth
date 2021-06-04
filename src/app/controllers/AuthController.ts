@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken';
 
 import User from '../models/User';
 
-
 // userDTO estabelece uma visão para a classe User sem expor a password na API 
 type userDTO = {
   email: string;
@@ -13,10 +12,10 @@ type userDTO = {
 };
 
 class AuthController{
-  async authenticate(req: Request, res: Response){
-    const repository = getRepository(User);
+  async authenticate(req: Request, res: Response){   
     const { email, password } = req.body;
-
+    
+    const repository = getRepository(User);
     const user = await repository.findOne({ where: { email } });
 
     // Verifica se achou um usuário com o e-mail informado
@@ -26,8 +25,8 @@ class AuthController{
       );  
     }
     
-    // Verifica se a senha fornecida é igua a senha cadastrada no BD
-    // compare é uma function de bcryptjs - retorno um boolean 
+    // Verifica se a senha fornecida é igual a senha cadastrada no BD
+    // compare é uma function de bcryptjs - retorna um boolean 
     const isValidPassowrd = await compare(password, user.password);
 
     // Password divergentes
