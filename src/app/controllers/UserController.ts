@@ -4,13 +4,13 @@ import User from '../models/User';
 
 class UserController{
 
-  // Get - /users
+  // Get - /users (List all)
   async index(req: Request, res: Response){
     let rep = getRepository(User);
     return res.status(200).json( await rep.find());
   }
   
-  // Post - /users
+  // Post - /users (Create user)
   async store(req: Request, res: Response){
     const { email, password } = req.body;
 

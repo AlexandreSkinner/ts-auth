@@ -47,6 +47,10 @@ $ npm install jsonwebtoken --save -D
 # Tipos do jsonwebtoken
 $ npm install @types/jsonwebtoken --save -D 
 
+# Variáveis de ambiente
+npm install dotenv
+
+
 3. INICIALIZAÇÕES:
 -----------------
 

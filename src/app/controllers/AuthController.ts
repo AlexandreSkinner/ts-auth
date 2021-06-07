@@ -37,7 +37,9 @@ class AuthController{
     }
 
     // Cria o token (payload, secret_key, tempo duração)
-    const token = jwt.sign({ id: user.id }, 'secret', { expiresIn: '1d'});
+    let secrety = process.env.SECRET_KEY || ' ';
+    const token = jwt.sign({ id: user.id }, secrety, { expiresIn: '1d'});
+    //const token = jwt.sign({ id: user.id }, 'secret', { expiresIn: '1d'});
     
     // Eliminar a password do retorno
     let dto: userDTO = { email, token };

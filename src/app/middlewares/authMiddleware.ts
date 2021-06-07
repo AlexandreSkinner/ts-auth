@@ -21,7 +21,10 @@ export default function authMiddleware(req: Request, res: Response, next: NextFu
   try { 
 
     // decodifica o token obtendo as informações do payload
-    const data = jwt.verify(token, 'secret');
+    //const data = jwt.verify(token, 'secret');
+    let secrety = process.env.SECRET_KEY || ' ';
+    
+    const data = jwt.verify(token, secrety);
     const { id } = data as TokenPayload;
     
     // Salvando o ID do user no request
