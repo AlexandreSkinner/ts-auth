@@ -104,19 +104,21 @@ MyProject
 }
 
 4. CONTROLE DE MIGRATION
-------------------------
-### Criando a migration da entity Users - Como a entity não existia no código, a  
-### execução do comando cria o template da migration sem nenhuma especificação
-$ npx typeorm migration:create -n createUsersTable
+-------------------------
 
-## Executando a migration - Cria objeto no BD conforme especificação existente 
-## no código da migration e cria uma tabela no BD para controle das migations
-$ npm run typeorm migration:run
+### Estratégia (1) - Cria um esboço de migration que precisa ser complementado 
+### manualmente, no exemplo aqui foi criado quando só existia a entity Class.
+$ typeorm migration:create -n createClass
 
-### Gera migração a partir de definição das entitys
-$ npm run typeorm migration:genarate -- -n CriarTabelas
+### Estratégia (2) - Cria a migração a partir da definição das entitys existentes
+### no Models, por esse método as migration são códigos SQL. Veja exemplo abaixo:
+### await queryRunner.query( "CREATE TABLE `content` (`id` int NOT NULL AUTO_INCREMENT,
+###                          `descript` varchar(255) NOT NULL, `linkContent` varchar(255) NOT NULL, 
+###                          PRIMARY KEY (`id`)) ENGINE=InnoDB");
+### Comando para essa estratégia de geração para a migration
+$ npm run typeorm migration:generate -- -n CriarTabelas
 
-### Executando a migration
+### Executando a migration sem script
 $ ts-node ./node_modules/typeorm/cli.js migration:run
 
 ### Executando pelo script - Esse script é porque o migration:run e revert
@@ -130,8 +132,22 @@ $ npm run typeorm migration:revert
 ### Cria o esboço da Entity Class.ts tendo como origem a migration
 $ npx typeorm entity:create -n Class
 
-### Para dar start na aplicação com o script de desenvolvimento
-$ npm run dev
+### Estes são os scripts: dev - para start da aplicação, typeorm para executar no terminal
+### comandos para criar uma migration, executar uma migration etc.
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts",
+    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js"
+  }
+
+1. Descrição das flag do script dev:
+  ts-node-dev - É uma ferramenta que compila o projeto typescript e reinicia a aplicação quando o arquivo é alterado.
+  
+  A flag --transpile-only indica que só transpila o código e não verifica se ele está certo ou errado. Nós não precisamos dessa verificação em tempo de desenvolvimento porque o VsCode com o Typescript já realiza esta verificação em tempo de desing;
+
+  A flag --respawn serve para que o ts-node-dev fique observando alterações do código, para transpilar e fazer auto reload da aplicação;
+  
+  A flag --ignore-watch node_modules faz o compilador ignorar todo o conteúdo da pasta node_modules
 
 ### Estes são os scripts: dev - para start da aplicação, typeorm para executar no terminal
 ### comandos para criar uma migration, executar uma migration etc.
@@ -158,6 +174,7 @@ $ npm run dev
 
 ### Para dar start na aplicação com o script de desenvolvimento
 $ npm run dev
+
 
 5. JWT
 ---------------------
